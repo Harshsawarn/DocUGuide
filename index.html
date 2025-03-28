@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocuGuide IITP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e6ecf2 0%, #d1dbe5 100%);
+            color: #1a2b49;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            background: #1a2b49;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .header nav a {
+            color: #d4d9e2;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 16px;
+            font-weight: 400;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .header nav a:hover,
+        .header nav a.active {
+            color: #20c997;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 22px;
+            color: #d4d9e2;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .theme-toggle:hover {
+            color: #20c997;
+            transform: rotate(180deg);
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            padding: 100px 30px 60px;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            background: #fff;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid #e0e4e8;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(32, 201, 151, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+            z-index: 0;
+        }
+
+        .hero h2 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #1a2b49;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 25px;
+            color: #5a6b88;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero button {
+            padding: 12px 30px;
+            background: linear-gradient(90deg, #1a2b49, #2e4066);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Documents Section */
+        .documents {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #e0e4e8;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .card .icon {
+            font-size: 40px;
+            color: #20c997;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1a2b49;
+        }
+
+        /* Contact Section */
+        .contact {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+        }
+
+        .contact h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a2b49;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .contact .info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact .info p {
+            font-size: 16px;
+            color: #5a6b88;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact .info p b {
+            color: #1a2b49;
+        }
+
+        .contact .info a {
+            color: #20c997;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact .info a:hover {
+            color: #18a77b;
+        }
+
+        /* FAQ Section (Placeholder) */
+        .faq {
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .faq h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a2b49;
+            margin-bottom: 20px;
+        }
+
+        .faq p {
+            font-size: 16px;
+            color: #5a6b88;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+            max-width: 550px;
+            width: 90%;
+            border: 1px solid #e0e4e8;
+        }
+
+        .modal h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a2b49;
+            margin-bottom: 20px;
+        }
+
+        .modal p {
+            margin: 12px 0;
+            font-size: 16px;
+            color: #5a6b88;
+        }
+
+        .modal p b {
+            color: #1a2b49;
+        }
+
+        .modal button {
+            padding: 10px 25px;
+            background: #20c997;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .modal button:hover {
+            background: #18a77b;
+            transform: translateY(-2px);
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #1a2b49;
+            color: #d4d9e2;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            font-size: 14px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dark Mode */
+        body.dark {
+            background: linear-gradient(135deg, #1e2a3c, #2e4066);
+            color: #d4d9e2;
+        }
+
+        body.dark .header,
+        body.dark .footer {
+            background: #0f1a2e;
+        }
+
+        body.dark .hero,
+        body.dark .card,
+        body.dark .modal,
+        body.dark .contact,
+        body.dark .faq {
+            background: #2e4066;
+            color: #d4d9e2;
+            border-color: #3e5277;
+        }
+
+        body.dark .hero h2,
+        body.dark .card h3,
+        body.dark .modal h2,
+        body.dark .contact h2,
+        body.dark .faq h2,
+        body.dark .modal p b,
+        body.dark .contact p b {
+            color: #fff;
+        }
+
+        body.dark .hero p,
+        body.dark .modal p,
+        body.dark .contact p,
+        body.dark .faq p {
+            color: #a0aec0;
+        }
+
+        body.dark .card .icon {
+            color: #20c997;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+            }
+
+            .header nav {
+                margin-top: 15px;
+            }
+
+            .hero h2 {
+                font-size: 30px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .documents {
+                grid-template-columns: 1fr;
+            }
+
+            .contact {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>DocuGuide IITP</h1>
+        <nav>
+            <a onclick="showSection('home')" class="active">Home</a>
+            <a onclick="showSection('documents')">Documents</a>
+            <a onclick="showSection('contact')">Contact</a>
+            <a onclick="showSection('faq')">FAQ</a>
+            <span class="theme-toggle" onclick="toggleTheme()">🌙</span>
+        </nav>
+    </div>
+
+    <!-- Home Section -->
+    <div class="section hero active" id="home">
+        <h2>Document Assistance for IIT Patna</h2>
+        <p>Streamlined guidance for obtaining essential academic documents.</p>
+        <button onclick="showSection('documents')">View Documents</button>
+    </div>
+
+    <!-- Documents Section -->
+    <div class="section documents" id="documents">
+        <div class="card" onclick="openModal('bonafide')">
+            <span class="icon">📜</span>
+            <h3>Bonafide Certificate</h3>
+        </div>
+        <div class="card" onclick="openModal('transcripts')">
+            <span class="icon">📚</span>
+            <h3>Transcripts</h3>
+        </div>
+        <div class="card" onclick="openModal('marksheet')">
+            <span class="icon">📊</span>
+            <h3>Marksheet</h3>
+        </div>
+        <div class="card" onclick="openModal('demand-draft')">
+            <span class="icon">💵</span>
+            <h3>Demand Draft</h3>
+        </div>
+        <div class="card" onclick="openModal('migration')">
+            <span class="icon">🌍</span>
+            <h3>Migration Certificate</h3>
+        </div>
+        <div class="card" onclick="openModal('character')">
+            <span class="icon">🏅</span>
+            <h3>Character Certificate</h3>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="section contact" id="contact">
+        <h2>Contact Us</h2>
+        <div class="info">
+            <p><b>Address:</b> Admin Building, 3rd Floor, Room No. 301</p>
+            <p><b>Phone:</b> <a href="tel:+916115233102">+91 (6115) 233-102</a></p>
+            <p><b>Mobile:</b> <a href="tel:+917309550000">+91-73095 50000</a></p>
+            <p><b>Email:</b> <a href="mailto:adacad_office@iitp.ac.in">adacad_office@iitp.ac.in</a></p>
+        </div>
+    </div>
+
+    <!-- FAQ Section (Placeholder) -->
+    <div class="section faq" id="faq">
+        <h2>Frequently Asked Questions</h2>
+        <p>Coming soon! For now, reach out to us via the Contact page.</p>
+    </div>
+
+    <!-- Modals -->
+    <div class="overlay" id="overlay" onclick="closeAllModals()"></div>
+
+    <div class="modal" id="bonafide">
+        <h2>Bonafide Certificate</h2>
+        <p><b>Requirements:</b> Application for Bonafide, Self-attested Aadhaar Card, Admission Number</p>
+        <p><b>Cost:</b> ₹150</p>
+        <p><b>Processing Time:</b> 2-3 working days</p>
+        <p><b>Submission Location:</b> 3rd Floor, CET Office, Admin Block</p>
+        <button onclick="closeModal('bonafide')">Close</button>
+    </div>
+
+    <div class="modal" id="transcripts">
+        <h2>Transcripts</h2>
+        <p><b>Requirements:</b> Application, Fee Receipt, ID Proof</p>
+        <p><b>Cost:</b> ₹500</p>
+        <p><b>Processing Time:</b> 5-7 working days</p>
+        <p><b>Submission Location:</b> Academic Section, 2nd Floor, Admin Block</p>
+        <button onclick="closeModal('transcripts')">Close</button>
+    </div>
+
+    <div class="modal" id="marksheet">
+        <h2>Marksheet</h2>
+        <p><b>Requirements:</b> Application, Semester Fee Receipt</p>
+        <p><b>Cost:</b> ₹100</p>
+        <p><b>Processing Time:</b> 1-2 working days</p>
+        <p><b>Submission Location:</b> Exam Cell, Ground Floor, Admin Block</p>
+        <button onclick="closeModal('marksheet')">Close</button>
+    </div>
+
+    <div class="modal" id="demand-draft">
+        <h2>Demand Draft</h2>
+        <p><b>Requirements:</b> Application, Purpose Letter</p>
+        <p><b>Cost:</b> ₹50 + Bank Charges</p>
+        <p><b>Processing Time:</b> Same day</p>
+        <p><b>Submission Location:</b> Accounts Office, 1st Floor, Admin Block</p>
+        <button onclick="closeModal('demand-draft')">Close</button>
+    </div>
+
+    <div class="modal" id="migration">
+        <h2>Migration Certificate</h2>
+        <p><b>Requirements:</b> Application, No Dues Certificate, ID Proof</p>
+        <p><b>Cost:</b> ₹200</p>
+        <p><b>Processing Time:</b> 3-5 working days</p>
+        <p><b>Submission Location:</b> Academic Section, 2nd Floor, Admin Block</p>
+        <button onclick="closeModal('migration')">Close</button>
+    </div>
+
+    <div class="modal" id="character">
+        <h2>Character Certificate</h2>
+        <p><b>Requirements:</b> Application, Faculty Recommendation</p>
+        <p><b>Cost:</b> ₹100</p>
+        <p><b>Processing Time:</b> 2-3 working days</p>
+        <p><b>Submission Location:</b> Dean of Students Office, 3rd Floor, Admin Block</p>
+        <button onclick="closeModal('character')">Close</button>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Indian Institute of Technology Patna | © 2025</p>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+
+            const navLinks = document.querySelectorAll('.header nav a');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick') === `showSection('${sectionId}')`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        function openModal(id) {
+            document.getElementById(id).style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function closeAllModals() {
+            const modals = document.getElementsByClassName('modal');
+            for (let modal of modals) {
+                modal.style.display = 'none';
+            }
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            const toggle = document.querySelector('.theme-toggle');
+            toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+        }
+
+        // Show home section by default
+        document.addEventListener('DOMContentLoaded', () => showSection('home'));
+    </script>
+</body>
+</html>
